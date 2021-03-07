@@ -1,21 +1,69 @@
-import { StatusBar } from 'expo-status-bar';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import Login from './Login.js';
+import { createDrawerNavigator } from "react-navigation-drawer";
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {Feather} from '@expo/vector-icons';
+import {
+  ProfileScreen,
+  MessageeScreen,
+  SignOutScreen
+} from "./src/screens/Index";
+import SideMenu from './SideMenu.js';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const DrawerNavigator = createDrawerNavigator({
+  ProfileScreen:{
+    screen:ProfileScreen,
+    navigationOptions:{
+      title:"Profile",
+      drawerIcon:() => <Feather name="user" size={15} />
+    }
   },
-});
+  MessageeScreen:{
+    screen:MessageeScreen,
+    navigationOptions:{
+      title:"Message",
+      drawerIcon:() => <Feather name="message-square" size={15} />
+    }
+  },
+ 
+  SignOutScreen:{
+    screen:SignOutScreen,
+    navigationOptions:{
+      title:"Sign Out",
+      drawerIcon:() => <Feather name="log-out" size={15} />
+    }
+  },
+  },
+  {
+    contentComponent: props => <SideMenu {...props} />
+  }
+  );
+
+const navigator = createStackNavigator(
+  {
+    Home: Login,
+    LoginPage: DrawerNavigator,
+  },
+);
+
+export default createAppContainer(navigator);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
